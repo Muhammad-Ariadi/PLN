@@ -1,3 +1,3 @@
 <?php
 
-$db = mysqli_connect("localhost", "root", "","db_pln");
+$db = mysqli_connect("localhost", "root", "", "pln");
