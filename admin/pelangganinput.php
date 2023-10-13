@@ -41,11 +41,12 @@ include 'header.php';
                         <tr>
                             <th class="text-center">ID Pelanggan</th>
                             <th class="text-center">Nama Pelanggan</th>
-                            <th class="text-center">Daya</th>
+                            <th class="text-center">Daya (VA)</th>
                             <th class="text-center">Tipe Pembayaran</th>
                             <th class="text-center">Maps</th>
                             <th class="text-center">Photo Meteran</th>
                             <th class="text-center">Keterangann</th>
+                            <th class="text-center">Rincian</th>
                             <th class="text-center">Opsi</th>
                         </tr>
                     </thead>
@@ -71,9 +72,10 @@ include 'header.php';
                                 </td>
                                 <td class="text-center"><img src="../file/<?php echo $d['pmet']; ?>" style="width: 100px; height:200px"></td>
                                 <td class="text-center"><?php echo $d['ket'] ?></td>
+                                <td class="text-center"><?php echo $d['ket2'] ?></td>
                                 <td class="text-center">
-                                    <a href="pelangganaksi.php?kode=<?php echo $d['idpel'] ?>&aksi=ubah" class="btn btn-success">Ubah</a>
-                                    <a href="pelangganproses.php?kode=<?php echo $d['idpel'] ?>&proses=proseshapus" class="btn btn-danger">Hapus</a>
+                                    <a href="pelangganaksi.php?kode=<?php echo $d['kd_idpel'] ?>&aksi=ubah" class="btn btn-success">Ubah</a>
+                                    <a href="javascript:void(0);" class="btn btn-danger" onclick="hapusData('<?php echo $d['kd_idpel']; ?>')">Hapus</a>
                                 </td>
                             </tr>
                         <?php
@@ -85,3 +87,10 @@ include 'header.php';
         </div>
     </div>
 </div>
+<script>
+    function hapusData(idpelanggan) {
+        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+            window.location.href = 'pelangganproses.php?kode=' + idpelanggan + '&proses=proseshapus';
+        }
+    }
+</script>

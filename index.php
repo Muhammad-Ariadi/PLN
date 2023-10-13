@@ -6,21 +6,24 @@ if (isset($_GET['aksi'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $hasil = $db->query("SELECT * from tbl_akun where username='$username' AND password='$password'");
+        $hasil = $db->query("SELECT * FROM tbl_akun WHERE username='$username' AND password='$password'");
         $cek = mysqli_num_rows($hasil);
-        if ($hasil > 0) {
+
+        if ($cek > 0) {
             $data = $hasil->fetch_assoc();
+            $_SESSION['kd_akun_user'] = $data['kd_akun']; // Simpan kd_akun di sesi
+            $_SESSION['username'] = $username;
+            $_SESSION['level'] = $data['level'];
+
             if ($data['level'] == 'Admin') {
-                $_SESSION['username'] = $username;
-                $_SESSION['level'] = 'Admin';
                 header("location:admin/index.php");
-            } elseif($data['level'] == 'petlap') {
-                $_SESSION['username'] = $username;
-                $_SESSION['level'] = 'petlap';
+            } elseif ($data['level'] == 'petlap') {
                 header("location:petlap/index.php");
-            }else {
+            } else {
                 header("location:index.php?pesan=gagal");
             }
+        } else {
+            header("location:index.php?pesan=gagal");
         }
     }
 }
@@ -32,9 +35,12 @@ if (isset($_GET['aksi'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Sederhana</title>
+    <title>SIPLN</title>
     <link rel="stylesheet" href="/assets/css/responsive.css">
     <link rel="stylesheet" href="assets/css/cosmo.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style type="text/css">
         body {
             background-color: skyblue;
@@ -75,21 +81,32 @@ if (isset($_GET['aksi'])) {
     }
     ?>
     <div class="container">
+        <center>
+            <img style="width: 100px; display: inline-block; vertical-align: middle;" src="img/Logo_PLN.png" alt="Logo">
+        </center>
         <form action="index.php?aksi=login" method="post" enctype="multipart/form-data">
-            <h3>LOGIN SISTEM</h3>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" placeholder="Username">
+            <br>
+            <div style="text-align:center;">
+                <p>Sistem Informasi Berbasis Website</p>
+                <p style="font-size: 12px;">Login ke Akun Anda</p>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
+            <br>
+            <div class="input-group">
+                <input type="text" name="username" class="form-control" placeholder="Username" autofocus autocomplete="off">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            </div>
+            <br>
+            <div class="input-group">
                 <input type="password" name="password" class="form-control" placeholder="Password">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
             </div>
             <div class="form-group text-center">
                 <input type="submit" value="LOGIN" class="btn btn-primary">
             </div>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
